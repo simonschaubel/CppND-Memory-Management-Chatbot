@@ -1,12 +1,12 @@
-#include <iostream>
-#include <random>
 #include <algorithm>
 #include <ctime>
+#include <iostream>
+#include <random>
 
-#include "chatlogic.h"
-#include "graphnode.h"
-#include "graphedge.h"
 #include "chatbot.h"
+#include "chatlogic.h"
+#include "graphedge.h"
+#include "graphnode.h"
 
 // constructor WITHOUT memory allocation
 ChatBot::ChatBot()
@@ -30,6 +30,7 @@ ChatBot::ChatBot(std::string filename)
     _image = new wxBitmap(filename, wxBITMAP_TYPE_PNG);
 }
 
+// destructor
 ChatBot::~ChatBot()
 {
     std::cout << "ChatBot Destructor" << std::endl;
@@ -44,6 +45,45 @@ ChatBot::~ChatBot()
 
 //// STUDENT CODE
 ////
+
+// copy constructor
+ChatBot::ChatBot(const ChatBot& chatbot){
+    std::cout << "ChatBot Copy Constructor" << std::endl;
+    _image = chatbot._image;
+    _chatLogic = chatbot._chatLogic;
+    _rootNode = chatbot._rootNode;
+}
+
+// move constructor
+ChatBot::ChatBot(ChatBot&& chatbot){
+    std::cout << "ChatBot Move Constructor" << std::endl;
+    _image = std::exchange(chatbot._image, nullptr);
+    _chatLogic = std::exchange(chatbot._chatLogic, nullptr);
+    _rootNode = std::exchange(chatbot._rootNode, nullptr);
+}
+
+// copy assignment
+ChatBot& ChatBot::operator=(const ChatBot& chatbot){
+    std::cout << "ChatBot Copy Assignment" << std::endl;
+
+    if (this == &chatbot) return *this;
+    ChatBot* copy_chatbot = new ChatBot();
+    copy_chatbot->_image = chatbot._image;
+    copy_chatbot->_chatLogic = chatbot._chatLogic;
+    copy_chatbot->_rootNode = chatbot._rootNode;
+    return *copy_chatbot;
+}
+
+// move assignment
+ChatBot& ChatBot::operator=(ChatBot&& chatbot){
+    std::cout << "ChatBot Move Assignment" << std::endl;
+
+    if (this == &chatbot) return *this;
+    std::swap(_image, chatbot._image);
+    std::swap(_chatLogic, chatbot._chatLogic);
+    std::swap(_rootNode, chatbot._rootNode);
+    return *this;
+}
 
 ////
 //// EOF STUDENT CODE
