@@ -119,6 +119,7 @@ void ChatBot::ReceiveMessageFromUser(std::string message)
     }
 
     // tell current node to move chatbot to new node
+    _chatLogic->SetChatbotHandle(this);
     _currentNode->MoveChatbotToNewNode(newNode);
 }
 
@@ -134,6 +135,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     std::string answer = answers.at(dis(generator));
 
     // send selected node answer to user
+    _chatLogic->SetChatbotHandle(this);
     _chatLogic->SendMessageToUser(answer);
 }
 

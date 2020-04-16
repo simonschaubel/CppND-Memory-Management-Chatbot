@@ -136,7 +136,7 @@ ChatBotPanelDialog::~ChatBotPanelDialog()
     //// STUDENT CODE
     ////
 
-    _chatLogic.reset();
+    //_chatLogic.reset();
 
     ////
     //// EOF STUDENT CODE
