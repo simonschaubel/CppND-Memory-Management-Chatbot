@@ -33,7 +33,7 @@ ChatLogic::~ChatLogic()
 template <typename T>
 void ChatLogic::AddAllTokensToElement(std::string tokenID, tokenlist &tokens, T &element)
 {
-    // find all occurences for current node
+    // find all occurrences for current node
     auto token = tokens.begin();
     while (true)
     {
@@ -159,10 +159,9 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
                                   { return node->GetID() == std::stoi(childToken->second); });
 
                             // create new edge
-                            GraphEdge *edge = new GraphEdge(id);
+                            GraphEdge* edge = new GraphEdge(id);
                             edge->SetChildNode(childNode->get());
                             edge->SetParentNode(parentNode->get());
-                            _edges.push_back(edge);
 
                             // find all keywords for current node
                             AddAllTokensToElement("KEYWORD", tokens, *edge);
@@ -197,20 +196,13 @@ void ChatLogic::LoadAnswerGraphFromFile(std::string filename)
 
     // identify root node
     GraphNode *rootNode = nullptr;
-    for (auto it = std::begin(_nodes); it != std::end(_nodes); ++it)
+    for (auto& node : _nodes)
     {
         // search for nodes which have no incoming edges
-        if ((*it)->GetNumberOfParents() == 0)
+        if (node->GetNumberOfParents() == 0)
         {
-
-            if (rootNode == nullptr)
-            {
-                rootNode = it->get(); // assign current node to root
-            }
-            else
-            {
-                std::cout << "ERROR : Multiple root nodes detected" << std::endl;
-            }
+            if (rootNode == nullptr) rootNode = node.get(); // assign current node to root
+            else std::cout << "ERROR : Multiple root nodes detected" << std::endl;
         }
     }
 
